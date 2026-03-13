@@ -95,7 +95,6 @@ const Dashboard = () => {
         <h2 className="text-xl text-white font-semibold mb-3">
           Upcoming Tasks
         </h2>
-
         {upcomingTasks?.length === 0 ? (
           <p className="text-white">No upcoming tasks</p>
         ) : (
