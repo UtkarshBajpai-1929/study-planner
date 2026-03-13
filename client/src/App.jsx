@@ -3,6 +3,7 @@ import AppRoutes from "./routes/AppRoutes";
 import { useDispatch } from "react-redux";
 import { getCurrentUser } from "./features/authSlice";
 function App() {
+  //just a change
   const dispatch = useDispatch();
   useEffect(()=>{
     dispatch(getCurrentUser())
