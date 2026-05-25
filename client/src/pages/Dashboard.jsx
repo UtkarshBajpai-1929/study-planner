@@ -23,7 +23,7 @@ const Dashboard = () => {
   }, [dispatch]);
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="space-y-6">
 
       {/* Top Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -63,9 +63,9 @@ const Dashboard = () => {
           todayTasks.map((task) => (
             <div
               key={task._id}
-              className="flex items-center justify-between border-b border-white py-2"
+              className="flex items-center justify-between gap-3 border-b border-white py-2"
             >
-              <div>
+              <div className="min-w-0">
                 <p className="text-white font-medium">
                   {task.subject?.name || "subject"}
                 </p>
@@ -101,10 +101,10 @@ const Dashboard = () => {
           upcomingTasks.map((task) => (
             <div
               key={task._id}
-              className="flex justify-between border-b border-blue-200 py-2"
+              className="flex justify-between gap-3 border-b border-blue-200 py-2"
             >
-              <p className="text-white">{task.subject?.name || "Subject"}</p>
-              <p className="text-white">{task.hours} hrs</p>
+              <p className="min-w-0 text-white">{task.subject?.name || "Subject"}</p>
+              <p className="shrink-0 text-white">{task.hours} hrs</p>
             </div>
           ))
         )}

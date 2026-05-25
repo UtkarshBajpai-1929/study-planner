@@ -20,7 +20,6 @@ const Goal = () => {
   });
 
   useEffect(() => {
-    console.log("hi i am goal.")
     dispatch(getAllGoals());
     dispatch(getAllSubjects());
   }, [dispatch]);
@@ -67,17 +66,17 @@ const Goal = () => {
     await navigate(`/study-plan/${goalId}`);
   }
   return (
-    <div className="p-6">
+    <div>
        <h1 className="text-2xl text-blue-950 font-semibold mb-4">Create Goal</h1>
       {/* Create Goal Form */}
-      <form onSubmit={handleSubmit} className="flex flex-col gap-3 mb-6">
+      <form onSubmit={handleSubmit} className="mb-6 grid gap-3">
 
         <input
           name="title"
           value={formData.title}
           onChange={handleChange}
           placeholder="Goal Title"
-          className="border border-blue-200 rounded px-3 py-2 bg-blue-50"
+          className="w-full rounded border border-blue-200 bg-blue-50 px-3 py-2"
         />
 
         <input
@@ -85,7 +84,7 @@ const Goal = () => {
           value={formData.description}
           onChange={handleChange}
           placeholder="Description"
-          className="border border-blue-200 rounded px-3 py-2 bg-blue-50"
+          className="w-full rounded border border-blue-200 bg-blue-50 px-3 py-2"
         />
 
         <input
@@ -93,7 +92,7 @@ const Goal = () => {
           value={formData.dailystudyhours}
           onChange={handleChange}
           placeholder="Daily Study Hours"
-          className="border border-blue-200 rounded px-3 py-2 bg-blue-50"
+          className="w-full rounded border border-blue-200 bg-blue-50 px-3 py-2"
         />
 
         <input
@@ -101,16 +100,16 @@ const Goal = () => {
           name="deadline"
           value={formData.deadline}
           onChange={handleChange}
-          className="border border-blue-200 rounded px-3 py-2 bg-blue-50"
+          className="w-full rounded border border-blue-200 bg-blue-50 px-3 py-2"
         />
 
         {/* Subjects selection */}
         <div>
           <p className="text-blue-900 font-semibold mb-2">Select Subjects</p>
 
-          <div className="flex flex-wrap gap-2">
+          <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
             {subjects.map((subject) => (
-              <label key={subject._id} className="flex items-center gap-1">
+              <label key={subject._id} className="flex min-w-0 items-center gap-2 rounded bg-blue-50 px-3 py-2">
                 <input
                   type="checkbox"
                   checked={formData.subjects.includes(subject._id)}
@@ -124,7 +123,7 @@ const Goal = () => {
 
         <button
           type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          className="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
         >
           Create Goal
         </button>
@@ -133,19 +132,19 @@ const Goal = () => {
       {/* Goal List */}
       <hr/>
        <h1 className="text-2xl mt-6 text-blue-950 font-semibold mb-4">Your Goals</h1>
-      <div className="flex flex-wrap gap-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {goals.map((goal) => (
           <div
             key={goal._id}
-           className="flex flex-col justify-center items-center w-fit p-6 rounded shadow-sm bg-blue-50"
+           className="flex min-w-0 flex-col items-center justify-center rounded bg-blue-50 p-5 shadow-sm"
           >
-            <div className="flex items-center">
-            <h2 className="text-lg text-center text-blue-900 font-semibold">
+            <div className="flex w-full items-start justify-center gap-2">
+            <h2 className="min-w-0 text-center text-lg font-semibold text-blue-900">
               {goal.title}
             </h2>
             <button
               onClick={()=>handleDelete(goal._id)}
-             className="w-fit ml-3 mt-[6px] p-1 rounded bg-red-500 hover:bg-red-400 text-white text-center" 
+             className="mt-1 shrink-0 rounded bg-red-500 p-1 text-center text-white hover:bg-red-400" 
              ><MdDeleteOutline className="text-center"/></button>
             </div>
             <p className="text-sm text-center mt-2 text-blue-700">

@@ -1,7 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../features/authSlice";
-import { Link } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import { updateProfilePic } from "../features/authSlice";
 const UserMenu = ({ user }) => {
@@ -14,13 +13,13 @@ const UserMenu = ({ user }) => {
     }
   };
   return (
-    <div className="absolute right-0 top-12 w-64 bg-white shadow-lg rounded-lg p-4 z-50">
+    <div className="absolute right-0 top-12 z-50 w-[min(16rem,calc(100vw-2rem))] rounded-lg bg-white p-4 shadow-lg">
       
       <div className="flex flex-col items-center justify-center">
         {/* Avatar */}
         <div>
           {
-            user.profile ? (<img src={user.profile} className="w-40 h-40 rounded-full"/>) : (<div className="text-9xl text-center text-gray-500">
+            user.profile ? (<img src={user.profile} alt="Profile" className="h-32 w-32 rounded-full object-cover sm:h-40 sm:w-40"/>) : (<div className="text-8xl text-center text-gray-500 sm:text-9xl">
           <FaUserCircle />
         </div>
         )
@@ -41,9 +40,9 @@ const UserMenu = ({ user }) => {
 
         {/* User info */}
         <div>
-          <p className="font-semibold text-center">{user?.username}</p>
-          <p className="text-sm text-gray-500 text-center">{user?.email}</p>
-          <p className="text-sm text-gray-500 text-center">{user?.fullname}</p>
+          <p className="text-center font-semibold">{user?.username}</p>
+          <p className="break-all text-center text-sm text-gray-500">{user?.email}</p>
+          <p className="text-center text-sm text-gray-500">{user?.fullname}</p>
         </div>
       </div>
 

@@ -39,7 +39,7 @@ const Subjects = () => {
   if (error) return <p className="p-6 text-red-500">{error}</p>;
 
   return (
-    <div className="p-6">
+    <div>
       <h1 className="text-2xl text-blue-950 font-semibold mb-4">
         Your Subjects
       </h1>
@@ -47,21 +47,21 @@ const Subjects = () => {
       {/* Create Subject Form */}
       <form
         onSubmit={handleSubmit}
-        className="flex flex-wrap gap-3 mb-6"
+        className="mb-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4"
       >
         <input
           name="name"
           value={formData.name}
           onChange={handleChange}
           placeholder="Subject Name"
-          className="border border-blue-200 rounded px-3 py-2 bg-blue-50"
+          className="w-full rounded border border-blue-200 bg-blue-50 px-3 py-2"
         />
 
         <select
   name="difficulty"
   value={formData.difficulty}
   onChange={handleChange}
-  className="border border-blue-200 rounded px-3 py-2 bg-blue-50"
+  className="w-full rounded border border-blue-200 bg-blue-50 px-3 py-2"
 >
   <option value="">Select Difficulty</option>
   <option value="Easy">Easy</option>
@@ -74,23 +74,23 @@ const Subjects = () => {
           value={formData.time}
           onChange={handleChange}
           placeholder="Time (hrs)"
-          className="border border-blue-200 rounded px-3 py-2 bg-blue-50"
+          className="w-full rounded border border-blue-200 bg-blue-50 px-3 py-2"
         />
 
         <button
           type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          className="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
         >
           Add Subject
         </button>
       </form>
 
       {/* Subjects List */}
-      <div className="flex flex-wrap gap-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {subjects.map((subject) => (
           <div
             key={subject._id}
-            className="flex flex-col justify-center items-center w-auto sm:w-[200px] p-4 rounded shadow-sm bg-blue-50"
+            className="flex min-w-0 flex-col items-center justify-center rounded bg-blue-50 p-4 shadow-sm"
           >
             <h2 className="text-lg text-center text-blue-900 font-semibold">
               {subject.name}

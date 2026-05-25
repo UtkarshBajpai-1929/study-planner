@@ -6,9 +6,9 @@ export const getPlan = createAsyncThunk(
   async(goalId,thunkAPI)=>{
     try {
       const res = await API.get(`/get-study-plan/${goalId}`);
-      return res.data.data.schedule;
+      return res.data.data?.schedule || [];
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.message);
+      return thunkAPI.rejectWithValue(error.response?.data?.message || "Unable to load study plan");
     }
   }
 );
@@ -20,7 +20,7 @@ export const markTaskDone = createAsyncThunk(
       const res = await API.patch(`/study-plan/mark-task-done/${taskId}`);
       return res.data.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response?.data?.message);
+      return thunkAPI.rejectWithValue(error.response?.data?.message || "Unable to update task");
     }
   }
 );
@@ -39,10 +39,12 @@ const studyPlanSlice = createSlice({
     builder
     .addCase(getPlan.fulfilled, (state,action)=>{
       state.loading = false;
+      state.error = null;
       state.studyPlans = action.payload;
     })
     .addCase(getPlan.pending, (state)=>{
-      state.loading = true
+      state.loading = true;
+      state.error = null;
     })
     .addCase(getPlan.rejected, (state,action)=>{
       state.loading = false;
@@ -51,10 +53,10 @@ const studyPlanSlice = createSlice({
 
     builder.addCase(markTaskDone.fulfilled, (state, action) => {
    const taskId = action.payload._id;
-   state.plan?.schedule?.forEach((day) => {
+   state.studyPlans.forEach((day) => {
    const task = day.tasks.find((t) => t._id === taskId);
     if (task) {
-      task.completed = !task.completed;
+      task.completed = action.payload.completed;
     }
   });
 });

@@ -6,9 +6,9 @@ export const getWeeklyStats = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const res = await API.get("/get-weekly-stats");
-      return res.data.data;
+      return res.data.data || {};
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response?.data?.message);
+      return thunkAPI.rejectWithValue(error.response?.data?.message || "Unable to load weekly stats");
     }
   }
 );
@@ -18,9 +18,9 @@ export const getSubjectDistribution = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const res = await API.get("/get-subject-distribution");
-      return res.data.data;
+      return res.data.data || {};
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response?.data?.message);
+      return thunkAPI.rejectWithValue(error.response?.data?.message || "Unable to load subject distribution");
     }
   }
 );

@@ -8,7 +8,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { isAuthenticated, loading, error } = useSelector(
+  const { isAuthenticated, loginLoading, error } = useSelector(
     (state) => state.auth
   );
 
@@ -36,11 +36,11 @@ const Login = () => {
   }, [isAuthenticated, navigate]);
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-      <div className="flex flex-col items-center justify-center bg-white p-8 rounded shadow-md w-80">
+    <div className="flex min-h-screen items-center justify-center bg-gray-100 px-4 py-8">
+      <div className="flex w-full max-w-sm flex-col items-center justify-center rounded bg-white p-6 shadow-md sm:p-8">
       <form 
         onSubmit={handleSubmit}
-        
+        className="w-full"
       >
         <h2 className="text-xl font-bold mb-6 text-center">Login</h2>
 
@@ -68,13 +68,13 @@ const Login = () => {
 
         <button
           type="submit"
-          disabled={loading}
-          className="w-full bg-blue-500 text-white p-2 rounded"
+          disabled={loginLoading}
+          className="w-full rounded bg-blue-500 p-2 text-white disabled:cursor-not-allowed disabled:opacity-70"
         >
-          {loading ? "Logging in..." : "Login"}
+          {loginLoading ? "Logging in..." : "Login"}
         </button>
       </form>
-      <p>Don't Have account</p>
+      <p className="mt-4 text-sm text-gray-600">Don't have an account?</p>
       <Link className="text-blue-600 underline" to="/register"> Register Here</Link>
       </div>
       </div>

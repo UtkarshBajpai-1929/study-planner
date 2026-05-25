@@ -5,9 +5,9 @@ export const getAllGoals = createAsyncThunk(
   async(_, thunkAPI)=>{
     try {
       const res = await API.get("/get-all-goals");
-      return res.data.data;
+      return res.data.data || [];
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.message)
+      return thunkAPI.rejectWithValue(error.response?.data?.message || "Unable to load goals")
     }
   }
 );
@@ -19,7 +19,7 @@ export const createGoal = createAsyncThunk(
       const res = await API.post("/create-goal", data);
       return res.data.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response?.data?.message);
+      return thunkAPI.rejectWithValue(error.response?.data?.message || "Unable to create goal");
     }
   }
 );
@@ -28,10 +28,10 @@ export const deleteGoal = createAsyncThunk(
   "goals/deleteGoal",
   async(goalId, thunkAPI)=>{
     try {
-      const res = await API.post(`/delete-goal/${goalId}`);
+      await API.post(`/delete-goal/${goalId}`);
       return goalId;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.message);
+      return thunkAPI.rejectWithValue(error.response?.data?.message || "Unable to delete goal");
     }
   }
 );
@@ -43,7 +43,7 @@ export const generatePlan = createAsyncThunk(
       const res = await API.post(`/generate-plan/${goalId}`);
       return res.data.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.message);
+      return thunkAPI.rejectWithValue(error.response?.data?.message || "Unable to generate study plan");
     }
   }
 )
@@ -62,16 +62,19 @@ const goalSlice = createSlice({
     builder
     .addCase(getAllGoals.fulfilled, (state,action)=>{
       state.loading = false;
+      state.error = null;
       state.goals = action.payload
     })
     .addCase(getAllGoals.pending, (state)=>{
       state.loading = true;
+      state.error = null;
     })
     .addCase(getAllGoals.rejected, (state,action)=>{
       state.error = action.payload;
       state.loading = false
     });
   builder.addCase(createGoal.fulfilled, (state, action) => {
+  state.error = null;
   state.goals.push(action.payload);
   });
   builder

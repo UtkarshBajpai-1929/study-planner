@@ -42,14 +42,14 @@ const Analytics = () => {
   }));
 
   return (
-    <div className="p-6 space-y-8">
+    <div className="space-y-8">
 
       <h1 className="text-2xl text-blue-950 font-semibold">
         Analytics
       </h1>
 
       {/* Weekly Study Chart */}
-      <div className="bg-blue-50 p-4 rounded shadow-sm">
+      <div className="overflow-hidden rounded bg-blue-50 p-3 shadow-sm sm:p-4">
 
         <h2 className="text-lg text-blue-900 font-semibold mb-4">
           Weekly Study Hours
@@ -67,7 +67,7 @@ const Analytics = () => {
       </div>
 
       {/* Subject Distribution */}
-      <div className="bg-blue-50 p-4 rounded shadow-sm">
+      <div className="overflow-hidden rounded bg-blue-50 p-3 shadow-sm sm:p-4">
 
         <h2 className="text-lg text-blue-900 font-semibold mb-4">
           Subject Distribution

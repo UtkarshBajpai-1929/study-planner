@@ -7,9 +7,9 @@ export const getTodayTasks = createAsyncThunk(
     try {
       const res = await API.get("/study-plan/get-today-task");
      
-      return res.data.data.tasks;
+      return res.data.data?.tasks || [];
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response?.data?.message);
+      return thunkAPI.rejectWithValue(error.response?.data?.message || "Unable to load today's tasks");
     }
   }
 );
@@ -19,9 +19,9 @@ export const getUpcomingTasks = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const res = await API.get("/get-upcoming-plan");
-      return res.data.data[1].tasks;
+      return res.data.data?.[1]?.tasks || [];
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response?.data?.message);
+      return thunkAPI.rejectWithValue(error.response?.data?.message || "Unable to load upcoming tasks");
     }
   }
 );
@@ -33,7 +33,7 @@ export const getProgress = createAsyncThunk(
       const res = await API.get("/track-progress");
       return res.data.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response?.data?.message);
+      return thunkAPI.rejectWithValue(error.response?.data?.message || "Unable to load progress");
     }
   }
 );
@@ -45,7 +45,7 @@ export const getStudyStreak = createAsyncThunk(
       const res = await API.get("/get-study-streak");
       return res.data.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response?.data?.message);
+      return thunkAPI.rejectWithValue(error.response?.data?.message || "Unable to load study streak");
     }
   }
 );

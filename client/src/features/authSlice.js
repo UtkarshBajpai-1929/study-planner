@@ -8,7 +8,7 @@ export const loginUser = createAsyncThunk(
       const res = await API.post("/login", data);
       return res.data.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.message);
+      return thunkAPI.rejectWithValue(error.response?.data?.message || "Unable to login");
     }
   }
 );
@@ -20,7 +20,7 @@ export const registerUser = createAsyncThunk(
       const res = await API.post("/register", data);
       return res.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.message);
+      return thunkAPI.rejectWithValue(error.response?.data?.message || "Unable to register");
     }
   }
 );
@@ -32,7 +32,7 @@ export const getCurrentUser = createAsyncThunk(
       const res = await API.get("/get-current-user");
       return res.data.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.message);
+      return thunkAPI.rejectWithValue(error.response?.data?.message || "Session expired");
     }
   }
 )
@@ -51,15 +51,17 @@ export const updateProfilePic = createAsyncThunk(
 
       return res.data.data;
     } catch (error) {
-      console.log(error)
-      return thunkAPI.rejectWithValue(error.response.data.message);
+      return thunkAPI.rejectWithValue(error.response?.data?.message || "Unable to update profile picture");
     }
   }
 );
 const initialState = {
   user: null,
   isAuthenticated: false,
-  loading: false,
+  authChecking: true,
+  authChecked: false,
+  loginLoading: false,
+  registerLoading: false,
   error: null,
   profileUploading: false,
 };
@@ -71,36 +73,55 @@ const authSlice = createSlice({
     logout: (state) => {
       state.user = null;
       state.isAuthenticated = false;
+      state.authChecked = true;
+      state.error = null;
     }
   },
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.pending, (state) => {
-        state.loading = true;
+        state.loginLoading = true;
+        state.error = null;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-        state.loading = false;
+        state.loginLoading = false;
         state.user = action.payload;
         state.isAuthenticated = true;
+        state.authChecked = true;
       })
       .addCase(loginUser.rejected, (state, action) => {
-        state.loading = false;
+        state.loginLoading = false;
         state.error = action.payload;
       });
 
       builder
        .addCase(getCurrentUser.pending, (state) => {
-    state.loading = true;
+    state.authChecking = true;
   })
   .addCase(getCurrentUser.fulfilled, (state, action) => {
-    state.loading = false;
+    state.authChecking = false;
+    state.authChecked = true;
     state.user = action.payload;
     state.isAuthenticated = true;
   })
   .addCase(getCurrentUser.rejected, (state) => {
-    state.loading = false;
+    state.authChecking = false;
+    state.authChecked = true;
     state.user = null;
     state.isAuthenticated = false;
+  });
+
+  builder
+  .addCase(registerUser.pending, (state) => {
+    state.registerLoading = true;
+    state.error = null;
+  })
+  .addCase(registerUser.fulfilled, (state) => {
+    state.registerLoading = false;
+  })
+  .addCase(registerUser.rejected, (state, action) => {
+    state.registerLoading = false;
+    state.error = action.payload;
   });
 
   builder
@@ -109,10 +130,11 @@ const authSlice = createSlice({
   })
   .addCase(updateProfilePic.fulfilled, (state, action) => {
     state.profileUploading = false;
-    state.user.profile = action.payload.profile;
+    if (state.user) {
+      state.user.profile = action.payload.profile;
+    }
   })
   .addCase(updateProfilePic.rejected, (state) => {
-    console.log("uploading failed")
     state.profileUploading = false;
   });
   }

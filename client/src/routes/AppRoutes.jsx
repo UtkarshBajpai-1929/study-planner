@@ -13,15 +13,15 @@ import StudyPlan1 from '../pages/StudyPlan1'
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route element={<MainLayout/>} >
-      <Route path='/' element={<ProtectedRoute> <Dashboard/> </ProtectedRoute>}/>
-      <Route path='/goal' element={<ProtectedRoute><Goal/></ProtectedRoute>} />
-      <Route path='/analytics' element={<ProtectedRoute><Analytics/></ProtectedRoute>} />
       <Route path='/login' element={<Login/>} />
       <Route path='/register' element={<Register/>} />
-      <Route path='/study-plan' element={<ProtectedRoute><StudyPlan1/></ProtectedRoute>}></Route>
-      <Route path='/study-plan/:goalId' element={<ProtectedRoute><StudyPlan/></ProtectedRoute>} />
-      <Route path='/subjects' element={<ProtectedRoute><Subjects/></ProtectedRoute>} />
+      <Route element={<ProtectedRoute><MainLayout /></ProtectedRoute>} >
+      <Route path='/' element={<Dashboard/>}/>
+      <Route path='/goal' element={<Goal/>} />
+      <Route path='/analytics' element={<Analytics/>} />
+      <Route path='/study-plan' element={<StudyPlan1/>}></Route>
+      <Route path='/study-plan/:goalId' element={<StudyPlan/>} />
+      <Route path='/subjects' element={<Subjects/>} />
       </Route>
     </Routes>
   )

@@ -1,12 +1,13 @@
 import React from 'react'
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../features/authSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { registerLoading, error } = useSelector((state) => state.auth);
 
   const [formData, setFormData] = useState({
     username: "",
@@ -31,10 +32,10 @@ const Register = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100">
+    <div className="flex min-h-screen items-center justify-center bg-gray-100 px-4 py-8">
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-8 rounded shadow-md w-96"
+        className="w-full max-w-md rounded bg-white p-6 shadow-md sm:p-8"
       >
         <h2 className="text-xl font-bold mb-6 text-center">Register</h2>
 
@@ -67,9 +68,22 @@ const Register = () => {
           className="w-full border p-2 mb-4 rounded"
         />
 
-        <button className="w-full bg-blue-500 text-white p-2 rounded">
-          Register
+        {error && (
+          <p className="mb-3 text-sm text-red-500">{error}</p>
+        )}
+
+        <button
+          disabled={registerLoading}
+          className="w-full rounded bg-blue-500 p-2 text-white disabled:cursor-not-allowed disabled:opacity-70"
+        >
+          {registerLoading ? "Creating account..." : "Register"}
         </button>
+        <p className="mt-4 text-center text-sm text-gray-600">
+          Already have an account?{" "}
+          <Link className="text-blue-600 underline" to="/login">
+            Login
+          </Link>
+        </p>
       </form>
     </div>
   );

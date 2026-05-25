@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllGoals, deleteGoal } from "../features/goalSlice";
 import { getAllSubjects } from "../features/subjectSlice";
@@ -10,7 +10,6 @@ const Goal = () => {
   const { goals} = useSelector((state) => state.goals);
   
   useEffect(() => {
-    console.log("hi i am goal component")
     dispatch(getAllGoals());
     dispatch(getAllSubjects());
   }, [dispatch]);
@@ -21,21 +20,21 @@ const Goal = () => {
     await navigate(`/study-plan/${goalId}`);
   }
   return (
-    <div className="p-6">
+    <div>
        <h1 className="text-2xl mt-6 text-blue-950 font-semibold mb-4">Your StudyPlans</h1>
-      <div className="flex flex-wrap gap-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {goals.map((goal) => (
           <div
             key={goal._id}
-           className="flex flex-col justify-center items-center w-fit p-6 rounded shadow-sm bg-blue-50"
+           className="flex min-w-0 flex-col items-center justify-center rounded bg-blue-50 p-5 shadow-sm"
           >
-            <div className="flex items-center">
-            <h2 className="text-lg text-center text-blue-900 font-semibold">
+            <div className="flex w-full items-start justify-center gap-2">
+            <h2 className="min-w-0 text-center text-lg font-semibold text-blue-900">
               {goal.title}
             </h2>
             <button
               onClick={()=>handleDelete(goal._id)}
-             className="w-fit ml-3 mt-[6px] p-1 rounded bg-red-500 hover:bg-red-400 text-white text-center" 
+             className="mt-1 shrink-0 rounded bg-red-500 p-1 text-center text-white hover:bg-red-400" 
              ><MdDeleteOutline className="text-center"/></button>
             </div>
             <p className="text-sm text-center mt-2 text-blue-700">

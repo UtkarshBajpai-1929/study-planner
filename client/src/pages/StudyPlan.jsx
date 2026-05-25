@@ -10,7 +10,7 @@ const StudyPlan = () => {
   const { studyPlans, loading, error } = useSelector(
     (state) => state.studyPlan
   );
-  console.log("studyPlans:", studyPlans)
+
   useEffect(() => {
     if (goalId) {
       dispatch(getPlan(goalId));
@@ -34,9 +34,9 @@ const StudyPlan = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
+    <div className="mx-auto max-w-4xl">
 
-      <h1 className="text-3xl font-bold mb-6">
+      <h1 className="mb-6 text-2xl font-bold sm:text-3xl">
         Study Plan
       </h1>
 
@@ -57,9 +57,9 @@ const StudyPlan = () => {
               {day.tasks.map((task, i) => (
                 <div
                   key={i}
-                  className="flex justify-between items-center border p-3 rounded-md"
+                  className="flex items-center justify-between gap-3 rounded-md border p-3"
                 >
-                  <div>
+                  <div className="min-w-0">
                     <p className="font-medium">
                       {task.subject?.name || "Subject"}
                     </p>
@@ -73,6 +73,7 @@ const StudyPlan = () => {
                     type="checkbox"
                     checked={task.completed}
                     readOnly
+                    className="shrink-0"
                   />
                 </div>
               ))}

@@ -5,9 +5,9 @@ export const getAllSubjects = createAsyncThunk(
   async(_,thunkAPI)=>{
     try {
       const res = await API.get("/get-all-subjects");
-      return res.data.data
+      return res.data.data || []
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.message);
+      return thunkAPI.rejectWithValue(error.response?.data?.message || "Unable to load subjects");
     }
   }
 )
@@ -23,7 +23,7 @@ async(data, thunkAPI)=>{
       });
     return res.data.data
   } catch (error) {
-    return thunkAPI.rejectWithValue(error.response.data.message);
+    return thunkAPI.rejectWithValue(error.response?.data?.message || "Unable to create subject");
   }
 }
 );
@@ -32,10 +32,10 @@ export const deleteSubject = createAsyncThunk(
   "subjects/deleteSubject", 
   async(subjectId,thunkAPI)=>{
    try {
-     const res = await API.post(`/delete-subject/${subjectId}`);
+     await API.post(`/delete-subject/${subjectId}`);
      return subjectId;
    } catch (error) {
-    return thunkAPI.rejectWithValue(error.response.data.message);
+    return thunkAPI.rejectWithValue(error.response?.data?.message || "Unable to delete subject");
    }
   }
 );
@@ -54,10 +54,12 @@ const subjectSlice = createSlice({
   extraReducers: (builder)=>{
     builder
     .addCase(getAllSubjects.pending, (state)=>{
-      state.loading = true
+      state.loading = true;
+      state.error = null;
     })
     .addCase(getAllSubjects.fulfilled, (state,action)=>{
       state.loading = false,
+      state.error = null,
       state.subjects = action.payload
     })
     .addCase(getAllSubjects.rejected, (state,action)=>{
