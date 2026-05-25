@@ -1,6 +1,6 @@
 import axios from "axios";
 const API= axios.create({
-  baseURL :`${import.meta.env.VITE_API_BASE_URL}/api/user`,
+  baseURL :`https://study-planner-s2qt.onrender.com`,
   withCredentials: true
 });
 
